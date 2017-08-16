@@ -16,8 +16,10 @@ public class AdvancedZhihuSpiderGet implements SpiderGet {
 	@Override
 	public ArrayList<Zhihu> specialWayGet(String... strings) {
 		// TODO Auto-generated method stub
-
-		return null;
+		String text=this.getAllPage(strings[0]);
+		ArrayList<Zhihu> results=this.advancedGetZhihu(text,strings[1]);
+		return results;	
+		//return null;
 	}
 
 	@Override
@@ -68,14 +70,59 @@ public class AdvancedZhihuSpiderGet implements SpiderGet {
 		  Matcher urlMatcher = urlPattern.matcher(url);
 		  // 是否存在匹配成功的对象
 		  boolean isFind = urlMatcher.find();
-		  while (isFind) {
+		  //先不循环爬取，确定爬取无误后再循环
+		 // while (isFind) {
 		   // 定义一个知乎对象来存储抓取到的信息
 		   Zhihu zhihuTemp = new Zhihu(urlMatcher.group(1));
+		   zhihuTemp=this.fillZhihu(zhihuTemp);
 		   // 添加成功匹配的结果
 		   results.add(zhihuTemp);
 		   // 继续查找下一个匹配对象
 		   isFind = urlMatcher.find();
-		  }
+		//  }
 		  return results;
 	}
-	}
+	//根据已经有url但其他信息为空的zhihu进行内容的填充
+	public Zhihu fillZhihu(Zhihu zh){
+		 String url=zh.zhihuUrl;
+		// if (zh.getRealUrl(url)) {
+			   System.out.println("正在抓取" + url);
+			   // 根据url获取该问答的细节
+			   String content = this.getAllPage(url);
+			   //System.out.println(content);
+			   Pattern pattern;
+			   Matcher matcher;
+			   // 匹配标题
+			  // pattern = Pattern.compile("zh-question-title.+?<h2.+?>(.+?)</h2>");
+			   //成功！爬取到了问题的标题
+			   pattern = Pattern.compile("QuestionHeader-title\">(.+?)<");
+			   matcher = pattern.matcher(content);
+			   if (matcher.find()) {
+				//   System.out.println("questionFound");
+			   // zh.question = matcher.group(1);
+			    zh.setQuestion(matcher.group(1));
+			    //System.out.println(matcher.group(1));
+			   }
+			   // 匹配描述
+			   //pattern = Pattern.compile("zh-question-detail.+?<div.+?>(.*?)</div>");
+			   pattern = Pattern.compile("QuestionHeader-detail.+?<div.+?>(.*?)</div>");
+			   //QuestionAnswers-answers
+			  // pattern = Pattern.compile("QuestionAnswers-answers.+?<div.+?>(.*?)</div>");
+			   matcher = pattern.matcher(content);
+			   if (matcher.find()) {
+				   System.out.println("questionDescriptionFound");
+				   zh.questionDescription = matcher.group(1);
+			   }
+			   // 匹配答案
+			   pattern = Pattern.compile("/answer/content.+?<div.+?>(.*?)</div>");
+			   matcher = pattern.matcher(content);
+			   boolean isFind = matcher.find();
+			   while (isFind) {
+				   System.out.println("AnswersFound");
+				   zh.answers.add(matcher.group(1));
+			    isFind = matcher.find();
+			   }
+		//	}
+		 return zh;
+		}
+}

@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>  
-    <className>com.spider.funcFactory.ZhihuConFactory</className>  <!-- 在这里没有注意，反射类需要标准完全包名和类名 -->
+    <className>com.spider.funcFactory.AdvancedZhihuConFactory</className>  <!-- 在这里没有注意，反射类需要标准完全包名和类名 -->
 </config>  

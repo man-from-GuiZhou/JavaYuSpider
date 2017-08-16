@@ -17,14 +17,16 @@ public class SpiderMain {
 		factory = (VirtualFactory) XMLUtil.getBean();
 		spiderGet = factory.getSpiderWay();
 		//可变定长参数，根据后续需要调整该方法
-		ArrayList<Zhihu> results=spiderGet.specialWayGet("https://www.zhihu.com/explore/recommendations","question_link.+?>(.+?)<","question_link.+?href=\"(.+?)\"");
+		ArrayList<Zhihu> results=spiderGet.specialWayGet
+				("https://www.zhihu.com/explore/recommendations",
+						"<h2>.+?question_link.+?href=\"(.+?)\".+?</h2>");//"question_link.+?>(.+?)<",
+						//"question_link.+?href=\"(.+?)\"");//"question_link.+?href=\"(.+?)\""
 		if(results==null){
 			System.out.println("function error");
 		}
 		else{
 			for(Zhihu tempZhihu:results){
-				System.out.println(tempZhihu.question);
-				System.out.println(tempZhihu.zhihuUrl);
+				System.out.println(tempZhihu.toString());;
 			}
 		}
 		//spiderGet.

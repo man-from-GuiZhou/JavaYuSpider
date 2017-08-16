@@ -18,8 +18,41 @@ public class Zhihu {
 	  answers = new ArrayList<String>();
 	 }
 	 
-	 public Zhihu(String url){
+	 public String getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(String question) {
+		this.question = question;
+	}
+
+	public String getZhihuUrl() {
+		return zhihuUrl;
+	}
+
+	public void setZhihuUrl(String zhihuUrl) {
+		this.zhihuUrl = zhihuUrl;
+	}
+
+	public ArrayList<String> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(ArrayList<String> answers) {
+		this.answers = answers;
+	}
+
+	public String getQuestionDescription() {
+		return questionDescription;
+	}
+
+	public void setQuestionDescription(String questionDescription) {
+		this.questionDescription = questionDescription;
+	}
+
+	public Zhihu(String url){
 		 this.zhihuUrl=url;
+		 this.getRealUrl(zhihuUrl);//得到url地址后马上进行转换
 	 }
 	 @Override
 	 public String toString() {
@@ -28,14 +61,14 @@ public class Zhihu {
 	 }
 	 //将爬取到的答案url进行转换
 	// 处理url
-	 boolean getRealUrl(String url) {
+	 public boolean getRealUrl(String url) {
 	  // 将http://www.zhihu.com/question/22355264/answer/21102139
 	  // 转化成http://www.zhihu.com/question/22355264
-	  // 否则不变
+	  // 否则不变 
 	  Pattern pattern = Pattern.compile("question/(.*?)/");
 	  Matcher matcher = pattern.matcher(url);
 	  if (matcher.find()) {
-	   zhihuUrl = "http://www.zhihu.com/question/" + matcher.group(1);
+	   zhihuUrl = "https://www.zhihu.com/question/" + matcher.group(1);
 	  } else {
 	   return false;
 	  }
