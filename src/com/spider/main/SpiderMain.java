@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.spider.dataType.Zhihu;
 import com.spider.funcFactoryInte.VirtualFactory;
 import com.spider.funcInte.SpiderGet;
-import com.spider.othertools.PatternTool;
+//import com.spider.othertools.PatternTool;
 import com.spider.othertools.XMLUtil;
 
 public class SpiderMain {
@@ -16,6 +16,7 @@ public class SpiderMain {
 		SpiderGet spiderGet;
 		factory = (VirtualFactory) XMLUtil.getBean();
 		spiderGet = factory.getSpiderWay();
+		//可变定长参数，根据后续需要调整该方法
 		ArrayList<Zhihu> results=spiderGet.specialWayGet("https://www.zhihu.com/explore/recommendations","question_link.+?>(.+?)<","question_link.+?href=\"(.+?)\"");
 		if(results==null){
 			System.out.println("function error");
@@ -46,6 +47,8 @@ public class SpiderMain {
 		
 	}
 	
+	//用于先前爬取百度首页、百度logo以及知乎编辑推荐信息的方法，不适用现在的程序
+	/*
 	static void missionMesInput(String URL,String Regex,SpiderGet sg){//将爬虫信息的输入和主程序分割开来
 		String result=sg.getAllPage(URL);
 		String imgSrc=PatternTool.RegexString(result, Regex);
@@ -57,6 +60,6 @@ public class SpiderMain {
 		String result=sg.getAllPage(URL);
 		ArrayList<String> questions=PatternTool.RegexStringList(result, Regex);
 		System.out.println(questions);
-	}
+	}*/
 
 }

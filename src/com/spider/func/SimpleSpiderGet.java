@@ -4,6 +4,8 @@ import java.io.*;
 import java.net.*;
 //import java.util.zip.GZIPInputStream;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.spider.dataType.Zhihu;
 import com.spider.funcInte.SpiderGet;
@@ -72,4 +74,14 @@ public class SimpleSpiderGet implements SpiderGet{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public String RegexString(String targetStr,String patternStr){
+		Pattern pattern = Pattern.compile(patternStr);
+		Matcher matcher = pattern.matcher(targetStr);
+		if(matcher.find()){
+			System.out.println("found");
+			return matcher.group(1);
+		}
+		return "nothing";
+	}//针对百度首页的简单爬虫所使用的匹配算法
 }
